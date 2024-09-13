@@ -33,3 +33,32 @@ async def read_item_bool(item_id: str, opcional: str | None = None, short: bool 
             {"desc":"this is amazing"}
         )
     return item
+
+#multiples  parametros de ruta y consulta
+@app.get("/users/{user_id}/items/{item_id}")
+async def read_user_item(
+    user_id: int, item_id: str, q: str | None = None, short: bool = False
+):
+    item = {"item_id":item_id, "ower_id": user_id}
+    if q:
+        item.update({"q":q})
+    if not short:
+        item.update(
+            {"desc":"This is amazing"}
+        )
+    return item
+    
+#parametros de consulta requeridos
+@app.get("/items_required/{item_id}")
+async def read_user_item_required(item_id: str, needy: str):
+    item = {"item_id":item_id, "needy": needy}
+    return item
+
+#parametros opcionales y obligatorios
+@app.get("/parametros_dos/{item_id}")
+async def read_opc_req(
+    item_id: str, needy: str, skip: int = 0, limit: int | None = None
+):
+    item = {"item_id":item_id, "needy":needy, "skip": skip, "limit": limit}
+    return item
+
